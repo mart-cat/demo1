@@ -65,11 +65,44 @@
                 @endforeach
             </tbody>
         </table>
+
+
+            <ul class="pagination">
+                {{-- Кнопка "Назад" --}}
+                <li class="page-item @if ($page <= 1) disabled @endif">
+                    <a class="page-link" href="?page={{ $page - 1 }}" tabindex="-1">Назад</a>
+                </li>
+                {{-- Текущий номер страницы --}}
+                <li class="page-item active">
+                    <span class="page-link">{{ $page }}</span>
+                </li>
+                {{-- Кнопка "Вперёд" --}}
+                
+                <li class="page-item @if ($page >= $totalPages) disabled @endif">
+                    <a class="page-link" href="?page={{ $page + 1 }}">Вперёд</a>
+                </li>
+            </ul>
+
+            @if(session('success'))
+    <div id="success" style="opacity:0; transition: opacity 0.7s;">
+        {{ session('success') }}
+    </div>
+    
+@endif
+
     @else
         <div class="alert alert-secondary text-center">Нет заявок</div>
     @endif
     @push('scripts')
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            const successDiv = document.getElementById('success');
+            successDiv.style.opacity = 1;
+            setTimeout(function() {
+                successDiv.style.opacity = 0;
+            }, 2000);
+        });
+        
             function toggleReasonField(select, id) {
                 let reasonBlock = document.getElementById('reason-block-' + id);
                 if (select.value === 'cancelled') {

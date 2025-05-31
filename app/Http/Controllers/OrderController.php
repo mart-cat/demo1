@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     public function index() {
-        $orders = auth()->user()->orders()->latest()->get();
+        $orders = Auth::user()->orders()->get();
         return view('orders.index', compact('orders'));
     }
 
